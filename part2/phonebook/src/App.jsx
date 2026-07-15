@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import personService from "./services/person";
 
-const List = ({ persons }) => {
+const List = ({ persons, onDelete }) => {
   return (
     <ul>
       {persons.map((person) => (
         <li key={person.id}>
-          {person.name} {person.number}
+          {person.name} {person.number}{" "}
+          <button onClick={() => onDelete(person.id)}>delete</button>
         </li>
       ))}
     </ul>
@@ -59,6 +60,14 @@ const App = () => {
   //     .then((response) => response.json())
   //     .then((data) => setPersons(data));
   // }, []);
+  function handleDelete(id) {
+    const personToDelete = persons.find((person) => id === person.id);
+    const del = confirm(`Delete ${personToDelete.name} ?`);
+    if (del)
+      personService.deletePerson(id).then((newPersons) => {
+        setPersons(persons.filter((c) => c.id !== id));
+      });
+  }
 
   function checkDuplicate() {
     for (const person of persons) {
@@ -84,7 +93,21 @@ const App = () => {
     event.preventDefault();
 
     if (checkDuplicate()) {
-      alert(`${newName} is already added to phonebook`);
+      const newNum = confirm(
+        `${newName} is already added to phonebook,replace the old number with a new one?`,
+      );
+      const obj = persons.find((person) => newName === person.name);
+      if (newNum) {
+        personService
+          .update(obj.id, { ...obj, number: newNumber })
+          .then((response) => {
+            const updatedPersons = persons.map((c) =>
+              c.id === response.id ? { ...c, number: response.number } : c,
+            );
+            //console.log(updatedPersons);
+            setPersons(updatedPersons);
+          });
+      }
     } else {
       const newPerson = {
         name: newName,
@@ -125,7 +148,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <List persons={personToShow} />
+      <List persons={personToShow} onDelete={handleDelete} />
     </div>
   );
 };
