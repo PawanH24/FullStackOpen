@@ -6,11 +6,6 @@
       "id": "1WE7Jvp9fxM"
     },
     {
-      "name": "puspal",
-      "number": "",
-      "id": "0MRQnzuk3tE"
-    },
-    {
       "name": "puspak ",
       "number": "9999",
       "id": "aXp16aqPTJw"
@@ -19,6 +14,11 @@
       "name": "lebron",
       "number": "2",
       "id": "ocd2KaqI6q0"
+    },
+    {
+      "name": "new",
+      "number": "number",
+      "id": "rncAwSkVosY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
