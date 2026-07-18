@@ -23,6 +23,7 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
+app.use(express.json());
 
 app.get("/api/persons", (request, response) => {
   response.json(persons);
@@ -52,6 +53,34 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
+const generateId = () => {
+  const max = 10000000000;
+  const id = Math.floor(Math.random() * max);
+  return String(id);
+};
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  if (!(body.name && body.number)) {
+    return response.status(400).json({
+      error: "must enter both name and number",
+    });
+  }
+  if (persons.find((p) => body.name === p.name)) {
+    return response.status(400).json({ error: "name must be unique" });
+  }
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(person);
+
+  response.json(person);
+});
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
