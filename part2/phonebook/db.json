@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "puspak",
-      "number": "",
-      "id": "1WE7Jvp9fxM"
-    },
-    {
-      "name": "puspak ",
-      "number": "9999",
-      "id": "aXp16aqPTJw"
-    },
-    {
       "name": "lebron",
       "number": "2",
       "id": "ocd2KaqI6q0"
@@ -19,6 +9,16 @@
       "name": "new",
       "number": "number",
       "id": "rncAwSkVosY"
+    },
+    {
+      "name": "kyrie",
+      "number": "9990003",
+      "id": "Z91LIcWiNE8"
+    },
+    {
+      "name": "STEPH",
+      "number": "",
+      "id": "IxXpsEnYI3A"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

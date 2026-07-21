@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import personService from "./services/person";
 import Notification from "./components/Notification";
 
@@ -66,7 +66,7 @@ const App = () => {
     const personToDelete = persons.find((person) => id === person.id);
     const del = confirm(`Delete ${personToDelete.name} ?`);
     if (del)
-      personService.deletePerson(id).then((newPersons) => {
+      personService.deletePerson(id).then(() => {
         setPersons(persons.filter((c) => c.id !== id));
       });
   }
