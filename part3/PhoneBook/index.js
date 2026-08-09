@@ -27,18 +27,6 @@ app.get("/info", (request, response) => {
   });
 });
 
-app.delete("/api/persons/:id", (request, response) => {
-  Phonebook.findByIdAndDelete(request.params.id)
-    .then((person) => {
-      response
-        .status(200)
-        .send(`deleted ${person.name} with ID: ${request.params.id}`);
-    })
-    .catch((error) => {
-      response.status(400).json({ error: "Error,wrong id" });
-    });
-});
-
 app.post("/api/persons", (request, response) => {
   const body = request.body;
   if (!body.name) {
@@ -55,6 +43,34 @@ app.post("/api/persons", (request, response) => {
   person.save().then((savePerson) => {
     response.json(savePerson);
   });
+});
+
+app.put("/api/persons/:id", (request, response, next) => {
+  const { number } = request.body;
+
+  Phonebook.findById(request.params.id)
+    .then((person) => {
+      if (!person) {
+        return response.status(404).json({ error: "person not found" });
+      }
+      person.number = number;
+      return person.save().then((updatedPerson) => {
+        response.json(updatedPerson);
+      });
+    })
+    .catch((error) => next(error));
+});
+
+app.delete("/api/persons/:id", (request, response, next) => {
+  Phonebook.findByIdAndDelete(request.params.id)
+    .then((person) => {
+      response
+        .status(200)
+        .send(`deleted ${person.name} with ID: ${request.params.id}`);
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 const errorHandler = (error, request, response, next) => {
