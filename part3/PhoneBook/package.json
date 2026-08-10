@@ -8,7 +8,8 @@
     "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && cd ../Phonebook-frontend && npm run build && cp -r dist ../PhoneBook",
-    "deploy:full": "npm run build:ui && git add dist/ && git commit -m \"automated frontend production build\" && git push origin main"
+    "deploy:full": "npm run build:ui && git add dist/ && git commit -m \"automated frontend production build\" && git push origin main",
+    "lint": "eslint"
   },
   "author": "Pawan Hada",
   "license": "ISC",
@@ -20,6 +21,10 @@
     "morgan": "^1.11.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.8.1",
+    "globals": "^17.9.0",
     "typescript": "^7.0.2"
   }
 }
