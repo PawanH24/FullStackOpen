@@ -27,7 +27,7 @@ test('unique identifier of blogs are named id', async () => {
   const response = await api.get('/api/blogs')
 
   response.body.forEach(blog => {
-    assert.ok(blog.id)
+    assert(blog.id)
     assert.strictEqual(blog._id, undefined)
   })
 })
@@ -50,7 +50,7 @@ test('a valid blog can be added', async () => {
   const titles = response.body.map(blog => blog.title)
 
   assert.strictEqual(response.body.length, initialBlogs.length + 1)
-  assert.ok(titles.includes('Async/await simplifies making async calls'))
+  assert(titles.includes('Async/await simplifies making async calls'))
 })
 
 test('a blog can be deleted', async () => {
@@ -66,7 +66,26 @@ test('a blog can be deleted', async () => {
   assert.strictEqual(blogsAtEnd.body.length, initialBlogs.length - 1)
 
   const titles = blogsAtEnd.body.map(blog => blog.title)
-  assert.ok(!titles.includes(blogToDelete.title))
+  assert(!titles.includes(blogToDelete.title))
+})
+
+test('a blog can be updated', async () => {
+  const blogsAtStart = await api.get('/api/blogs')
+  const blogToUpdate = blogsAtStart.body[0]
+
+  const updatedData = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedData)
+    .expect(200)
+
+  assert.strictEqual(response.body.likes, blogToUpdate.likes + 1)
+
+  const blogsAtEnd = await api.get('/api/blogs')
+  const updatedBlogInDb = blogsAtEnd.body.find(blog => blog.id === blogToUpdate.id)
+
+  assert.strictEqual(updatedBlogInDb.likes, blogToUpdate.likes + 1)
 })
 
 after(async() => {
