@@ -15,6 +15,6 @@ mongoose.connect(url,{ family: 4 }).then(() => {
 })
 
 app.use(express.json())
-app.use('/api/blog',blogRouter)
+app.use('/api/blogs',blogRouter)
 
 module.exports = app
