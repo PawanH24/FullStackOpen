@@ -1,10 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const blogRouter = require('./controllers/blog.controller')
+const config = require('./utils/config')
+
 
 const app = express()
 
-const url = process.env.MONGODB_URI
+const url = config.MONGODB_URI
 
 mongoose.connect(url,{ family: 4 }).then(() => {
   console.log('connected to MongoDB')
