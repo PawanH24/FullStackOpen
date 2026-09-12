@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhd2FuIiwiaWQiOiI2YTllODNjMTUzYzQ0NjJlNjk1OGYyZDYiLCJpYXQiOjE3ODkyMTg5ODd9.EtlLYUBkJHJ2zmRWD3BTwl2sKE6ntXNLrQoncIiwkdg
+
+{
+   "url":"asdfasdf.com",
+   "title":"mistborn",
+   "author":"brandon sanderson",
+   "likes":5 
+}
