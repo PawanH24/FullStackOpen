@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs.service";
 import LoginForm from "./components/Login";
 import loginService from "./services/login.service";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -17,6 +18,7 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState(null);
   const [user, setUser] = useState(null);
+  const blogFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -34,6 +36,7 @@ const App = () => {
   const addBlog = (e) => {
     e.preventDefault();
     try {
+      blogFormRef.current.toggleVisibility();
       const blogObject = {
         title: newBlog.title,
         author: newBlog.author,
@@ -113,8 +116,10 @@ const App = () => {
               {user.username} logged in
             </p>
             <button onClick={handleLogout}>logout</button>
-            <h2>create new</h2>
-            <BlogForm {...blogProps} />
+            <Togglable>
+              <h2>create new</h2>
+              <BlogForm {...blogProps} />
+            </Togglable>
             <div style={{ padding: "5px 0px", margin: 0 }}>
               {blogs.map((blog) => (
                 <Blog key={blog.id} blog={blog} {...blogProps} />
